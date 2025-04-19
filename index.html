@@ -4,86 +4,58 @@
   <meta charset="UTF-8" />
   <title>TEAM FACE Celebration</title>
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
+    body {
       background-color: black;
       color: white;
       font-family: Arial, sans-serif;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
       text-align: center;
     }
-    h1 {
-      position: absolute;
-      z-index: 10;
-      font-size: 2em;
+
+    .message {
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 1s ease, transform 1s ease;
     }
-    canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 0;
+
+    .message.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .message h1 {
+      font-size: 2em;
+      margin: 0.5em 0;
+    }
+
+    .message h2 {
+      font-size: 3em;
+      margin: 0.5em 0;
+      color: #FFD700; /* Gold color */
     }
   </style>
 </head>
 <body>
-  <h1>Great work TEAM FACE<br>"YOU DID IT"<br>The final code is 1595</h1>
-  <canvas id="fireworks"></canvas>
+  <div class="message" id="message1">
+    <h1>Congratulations Team FACE</h1>
+  </div>
+  <div class="message" id="message2">
+    <h2>The Final Code is 1595</h2>
+  </div>
+
   <script>
-    const canvas = document.getElementById('fireworks');
-    const ctx = canvas.getContext('2d');
-    let w, h;
-    function resize() {
-      w = canvas.width = window.innerWidth;
-      h = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
+    // Show the first message immediately
+    document.getElementById('message1').classList.add('show');
 
-    const particles = [];
-
-    function createFirework() {
-      const x = Math.random() * w;
-      const y = Math.random() * h / 2;
-      const count = 100;
-      for (let i = 0; i < count; i++) {
-        const angle = (Math.PI * 2 * i) / count;
-        const speed = Math.random() * 5 + 2;
-        particles.push({
-          x,
-          y,
-          dx: Math.cos(angle) * speed,
-          dy: Math.sin(angle) * speed,
-          life: 100,
-          color: `hsl(${Math.random() * 360}, 100%, 50%)`
-        });
-      }
-    }
-
-    function animate() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-      ctx.fillRect(0, 0, w, h);
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.fill();
-        p.x += p.dx;
-        p.y += p.dy;
-        p.dy += 0.05;
-        p.life--;
-        if (p.life <= 0) particles.splice(i, 1);
-      }
-      requestAnimationFrame(animate);
-    }
-
-    setInterval(createFirework, 700);
-    animate();
+    // Show the second message after a delay
+    setTimeout(() => {
+      document.getElementById('message2').classList.add('show');
+    }, 2000); // 2-second delay
   </script>
 </body>
 </html>
